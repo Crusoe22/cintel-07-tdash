@@ -6,5 +6,4 @@ pandas
 palmerpenguins
 bokeh
 jupyter_bokeh
-xyzservices
 shinywidgets
