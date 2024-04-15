@@ -11,6 +11,7 @@ from bokeh.plotting import figure
 from palmerpenguins import load_penguins
 
 import xyzservices
+import jupyter_bokeh
 
 # Load the penguins dataset
 df = palmerpenguins.load_penguins()
