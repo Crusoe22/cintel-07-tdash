@@ -4,3 +4,7 @@ shinylive
 seaborn
 pandas
 palmerpenguins
+bokeh
+jupyter_bokeh
+xyzservices
+shinywidgets

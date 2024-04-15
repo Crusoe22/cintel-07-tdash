@@ -6,6 +6,10 @@ from shiny import reactive
 from shiny.express import input, render, ui
 import palmerpenguins 
 
+from shinywidgets import render_bokeh
+from bokeh.plotting import figure
+from palmerpenguins import load_penguins
+
 # Load the penguins dataset
 df = palmerpenguins.load_penguins()
 
@@ -20,6 +24,11 @@ with ui.sidebar(title="Filter Data Controls"):
         "Species",
         ["Adelie", "Gentoo", "Chinstrap"],
         selected=["Adelie", "Gentoo", "Chinstrap"],
+    )
+    # Bokeh input
+    ui.input_selectize(
+    "var", "Select variable",
+    choices=["bill_length_mm", "body_mass_g"]
     )
     # Add horizontal rule and links to external resources
     ui.hr()
@@ -76,20 +85,24 @@ with ui.layout_column_wrap(fill=False):
             return f"{filtered_df()['bill_depth_mm'].mean():.1f} mm"
 
 
-# Create layout for displaying scatterplot and summary statistics
+# Create layout for displaying statistics
 with ui.layout_columns():
-    # Card for displaying scatterplot of bill length vs bill depth
-    with ui.card(full_screen=True):
-        ui.card_header("Penguin Bill Length and Depth")
 
-        @render.plot
-        def length_depth():
-            return sns.scatterplot(
-                data=filtered_df(),
-                x="bill_length_mm",
-                y="bill_depth_mm",
-                hue="species",
+    with ui.card(full_screen=True):
+        ui.card_header("Bokeh Chart")
+        @render_bokeh
+        def hist():
+
+            p = figure(x_axis_label=input.var(), y_axis_label="count")
+            bins = load_penguins()[input.var()].value_counts().sort_index()
+            p.quad(
+                top=bins.values,
+                bottom=0,
+                left=bins.index - 0.5,
+                right=bins.index + 0.5,
             )
+            return p
+
     # Card for displaying summary statistics of penguin data
     with ui.card(full_screen=True):
         ui.card_header("Penguin Statistic Data")
