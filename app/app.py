@@ -1,3 +1,4 @@
+# Import necessary libraries and modules
 import seaborn as sns
 from faicons import icon_svg
 
@@ -5,12 +6,14 @@ from shiny import reactive
 from shiny.express import input, render, ui
 import palmerpenguins 
 
+# Load the penguins dataset
 df = palmerpenguins.load_penguins()
 
-ui.page_opts(title="Penguins dashboard", fillable=True)
+# Set page options for the UI
+ui.page_opts(title="Palmer Penguins Dashboard", fillable=True)
 
-
-with ui.sidebar(title="Filter controls"):
+# Create sidebar with filter controls
+with ui.sidebar(title="Filter Data Controls"):
     ui.input_slider("mass", "Mass", 2000, 6000, 6000)
     ui.input_checkbox_group(
         "species",
@@ -18,6 +21,7 @@ with ui.sidebar(title="Filter controls"):
         ["Adelie", "Gentoo", "Chinstrap"],
         selected=["Adelie", "Gentoo", "Chinstrap"],
     )
+    # Add horizontal rule and links to external resources
     ui.hr()
     ui.h6("Links")
     ui.a(
@@ -48,6 +52,7 @@ with ui.sidebar(title="Filter controls"):
     )
 
 
+# Create layout for displaying penguin statistics
 with ui.layout_column_wrap(fill=False):
     with ui.value_box(showcase=icon_svg("earlybirds")):
         "Number of penguins"
@@ -71,9 +76,11 @@ with ui.layout_column_wrap(fill=False):
             return f"{filtered_df()['bill_depth_mm'].mean():.1f} mm"
 
 
+# Create layout for displaying scatterplot and summary statistics
 with ui.layout_columns():
+    # Card for displaying scatterplot of bill length vs bill depth
     with ui.card(full_screen=True):
-        ui.card_header("Bill length and depth")
+        ui.card_header("Penguin Bill Length and Depth")
 
         @render.plot
         def length_depth():
@@ -83,9 +90,9 @@ with ui.layout_columns():
                 y="bill_depth_mm",
                 hue="species",
             )
-
+    # Card for displaying summary statistics of penguin data
     with ui.card(full_screen=True):
-        ui.card_header("Penguin da")
+        ui.card_header("Penguin Statistic Data")
 
         @render.data_frame
         def summary_statistics():
@@ -102,6 +109,7 @@ with ui.layout_columns():
 #ui.include_css(app_dir / "styles.css")
 
 
+# Define reactive function to filter the dataset based on user inputs
 @reactive.calc
 def filtered_df():
     filt_df = df[df["species"].isin(input.species())]
