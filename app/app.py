@@ -10,6 +10,8 @@ from shinywidgets import render_bokeh
 from bokeh.plotting import figure
 from palmerpenguins import load_penguins
 
+import xyzservices
+
 # Load the penguins dataset
 df = palmerpenguins.load_penguins()
 
@@ -94,7 +96,7 @@ with ui.layout_columns():
         def hist():
 
             p = figure(x_axis_label=input.var(), y_axis_label="count")
-            bins = load_penguins()[input.var()].value_counts().sort_index()
+            bins = palmerpenguins.load_penguins()[input.var()].value_counts().sort_index()
             p.quad(
                 top=bins.values,
                 bottom=0,

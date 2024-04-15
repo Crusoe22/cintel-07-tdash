@@ -7,3 +7,4 @@ palmerpenguins
 bokeh
 jupyter_bokeh
 shinywidgets
+xyzservices
