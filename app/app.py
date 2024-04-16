@@ -38,30 +38,21 @@ with ui.sidebar(title="Filter Data Controls"):
     ui.h6("Links")
     ui.a(
         "GitHub Source",
-        href="https://github.com/denisecase/cintel-07-tdash",
+        href="https://github.com/Crusoe22/cintel-07-tdash",
         target="_blank",
     )
     ui.a(
         "GitHub App",
-        href="https://denisecase.github.io/cintel-07-tdash/",
+        href="https://Crusoe22.github.io/cintel-07-tdash/",
         target="_blank",
     )
     ui.a(
         "GitHub Issues",
-        href="https://github.com/denisecase/cintel-07-tdash/issues",
+        href="https://github.com/Crusoe22/cintel-07-tdash/issues",
         target="_blank",
     )
-    ui.a("PyShiny", href="https://shiny.posit.co/py/", target="_blank")
-    ui.a(
-        "Template: Basic Dashboard",
-        href="https://shiny.posit.co/py/templates/dashboard/",
-        target="_blank",
-    )
-    ui.a(
-        "See also",
-        href="https://github.com/denisecase/pyshiny-penguins-dashboard-express",
-        target="_blank",
-    )
+
+
 
 
 # Create layout for displaying penguin statistics
