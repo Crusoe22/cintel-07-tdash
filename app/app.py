@@ -6,11 +6,11 @@ from shiny import reactive
 from shiny.express import input, render, ui
 import palmerpenguins 
 
-from shinywidgets import render_bokeh
-from bokeh.plotting import figure
-from palmerpenguins import load_penguins
+from shinywidgets import render_plotly
 
-import xyzservices
+import plotly
+import plotly.express as px
+
 
 
 # Load the penguins dataset
@@ -28,11 +28,11 @@ with ui.sidebar(title="Filter Data Controls"):
         ["Adelie", "Gentoo", "Chinstrap"],
         selected=["Adelie", "Gentoo", "Chinstrap"],
     )
-    # Bokeh input
+    # Plotly input
     ui.input_selectize(
     "var", "Select variable",
     choices=["bill_length_mm", "body_mass_g"]
-    )
+)
     # Add horizontal rule and links to external resources
     ui.hr()
     ui.h6("Links")
@@ -92,19 +92,12 @@ with ui.layout_column_wrap(fill=False):
 with ui.layout_columns():
 
     with ui.card(full_screen=True):
-        ui.card_header("Bokeh Chart")
-        @render_bokeh
+        ui.card_header("Plotly Chart for Bill Length or Body Mass")
+        @render_plotly
         def hist():
+            df_p = df
+            return px.histogram(df_p, x=input.var())
 
-            p = figure(x_axis_label=input.var(), y_axis_label="count")
-            bins = palmerpenguins.load_penguins()[input.var()].value_counts().sort_index()
-            p.quad(
-                top=bins.values,
-                bottom=0,
-                left=bins.index - 0.5,
-                right=bins.index + 0.5,
-            )
-            return p
 
     # Card for displaying summary statistics of penguin data
     with ui.card(full_screen=True):
